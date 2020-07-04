@@ -7,6 +7,7 @@ import action.*;
 
 // banco: resposta pra solicitacao
 // conceitual: preco vaga
+// doc: cortar categoria denuncia e nota m -> v
 
 public class EasyPark {
 
@@ -25,9 +26,9 @@ public class EasyPark {
 
     private static String userCpf;
 
-    private static long requestLong(String message) {
+    private static Double requestDouble(String message) {
         System.out.println(message);
-        return Long.parseLong(scanner.nextLine());
+        return Double.parseDouble(scanner.nextLine());
     }
 
     private static int requestInt(String message) {
@@ -115,12 +116,11 @@ public class EasyPark {
             }
         } else if (selectedAction == 3) {
             SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy HH:mm");
-            String inicio, fim;
+            Date inicio, fim;
 
             while (true) {
-                inicio = requestString("Início do uso (no formato dd/mm/aaa hh:mm):");
                 try {
-                    format.parse(inicio);
+                    inicio = format.parse(requestString("Início do uso (no formato dd/mm/aaa hh:mm):"));
                     break;
                 } catch (ParseException e) {
                     System.out.println("Período inválido!");
@@ -128,17 +128,16 @@ public class EasyPark {
             }
 
             while (true) {
-                fim = requestString("Fim do uso (no formato dd/mm/aaa hh:mm):");
                 try {
-                    format.parse(fim);
+                    fim = format.parse(requestString("Fim do uso (no formato dd/mm/aaa hh:mm):"));
                     break;
                 } catch (ParseException e) {
                     System.out.println("Período inválido!");
                 }
             }
     
-            Long latitude = requestLong("Latitude desejada:");
-            Long longitude = requestLong("Longitude desejada: ");
+            Double latitude = requestDouble("Latitude desejada:");
+            Double longitude = requestDouble("Longitude desejada: ");
 
             ArrayList<String> vagasDetails = 
                 ActionVaga.listByLocationAndTime(userCpf, inicio, fim, latitude, longitude);
@@ -190,7 +189,7 @@ public class EasyPark {
                 System.out.println("Não conseguimos listar seus acordos");
             }
         } else if (selectedAction == 5) {
-            Long notaMedia = ActionUsuario.getNotaMedia(userCpf);
+            Double notaMedia = ActionUsuario.getNotaMedia(userCpf, "MOTORISTA");
             if (notaMedia != null) {
                 System.out.println("Sua nota média é " + notaMedia);
             } else {
@@ -261,11 +260,11 @@ public class EasyPark {
             }
         } else if (selectedAction == 2) {
             String bairro = requestString("Bairro da vaga: ");
-            Long latitude = requestLong("Latitude: ");
-            Long longitude = requestLong("Longitude: ");
-            Long largura = requestLong("Largura: ");
-            Long comprimento = requestLong("Comprimento: ");
-            Long preco = requestLong("Preço por hora: ");
+            Double latitude = requestDouble("Latitude: ");
+            Double longitude = requestDouble("Longitude: ");
+            Double largura = requestDouble("Largura: ");
+            Double comprimento = requestDouble("Comprimento: ");
+            Double preco = requestDouble("Preço por hora: ");
 
             if (ActionVaga.insert(userCpf, bairro, latitude, longitude, largura, comprimento, preco)) {
                 System.out.println("Vaga adicionada com sucesso!");
@@ -333,7 +332,7 @@ public class EasyPark {
                 System.out.println("Não conseguimos listar seus acordos");
             }
         } else if (selectedAction == 5) {
-            Long notaMedia = ActionUsuario.getNotaMedia(userCpf);
+            Double notaMedia = ActionUsuario.getNotaMedia(userCpf, "PROPRIETARIO");
             if (notaMedia != null) {
                 System.out.println("Sua nota média é " + notaMedia);
             } else {
@@ -422,12 +421,11 @@ public class EasyPark {
         String cpf = requestString("CPF: ");
         String email = requestString("Email: ");
         String senha = requestString("Senha: ");
-        String nascimento;
+        Date nascimento;
 
         while (true) {
-            nascimento = requestString("\nData de nascimento (no formato dd/mm/aaaa):");
             try {
-                format.parse(nascimento);
+                nascimento = format.parse(requestString("\nData de nascimento (no formato dd/mm/aaaa):"));
                 break;
             } catch (ParseException e) {
                 System.out.println("Data inválida!");

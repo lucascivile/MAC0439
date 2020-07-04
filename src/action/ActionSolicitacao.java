@@ -1,7 +1,9 @@
 package action;
 
 import java.util.ArrayList;
+import java.util.Date;
 
+import bd.relacional.SolicitacaoDAO;
 import modelo.relacional.Solicitacao;
 
 public class ActionSolicitacao {
@@ -10,7 +12,8 @@ public class ActionSolicitacao {
     * Cria uma solicitação do motorista para a vaga.
     * Retorna verdadeiro se teve sucesso, falso caso contrário.
     */
-    public static boolean insert(int idVaga, String cpfMotorista, String inicio, String fim) {
+    public static boolean insert(int idVaga, String cpfMotorista, Date inicio, Date fim) {
+        SolicitacaoDAO solicitacaoDAO = new SolicitacaoDAO();
         Solicitacao solicitacao = new Solicitacao();
 
         solicitacao.setCpfMotorista(cpfMotorista);
@@ -18,13 +21,11 @@ public class ActionSolicitacao {
         solicitacao.setInicio(inicio);
         solicitacao.setFim(fim);
 
-        // SolicitacaoDAO dao = new SolicitacaoDAO();
-
-        // try {
-        //     dao.insert(solicitacao);
-        // } catch (RuntimeException e) { -- runtime ou sqlerror? --
-        //     return false;
-        // }
+        try {
+            solicitacaoDAO.insert(solicitacao);
+        } catch (RuntimeException e) {
+            return false;
+        }
 
         return true;
     }
@@ -35,30 +36,30 @@ public class ActionSolicitacao {
     * Retorna nulo caso contrário.
     */
     public static ArrayList<String> listByMotorista(String cpf) {
-        // SolicitacaoDAO dao = new SolicitacaoDAO();
+        SolicitacaoDAO solicitacaoDAO = new SolicitacaoDAO();
         ArrayList<Solicitacao> solicitacoes = new ArrayList<>();
         ArrayList<String> solicitacoesAsString = new ArrayList<>();
             
-        // try {
-        //     solicitacoes = dao.listByMotorista(cpf);
+        try {
+            solicitacoes = solicitacaoDAO.listByCpfMotorista(cpf);
             
-        //     for (Solicitacao s : solicitacoes) {
-        //         String solicitacaoAsString =
-        //                 "idSolicitacao: " + s.getIdSolicitacao() + "\n" +
-        //                 "idVaga: " + s.getIdVaga() + "\n" +
-        //                 "início: " + s.getInicio() + "\n" +
-        //                 "fim: "    + s.getFim();
+            for (Solicitacao s : solicitacoes) {
+                String solicitacaoAsString =
+                        "idSolicitacao: " + s.getIdSolicitacao() + "\n" +
+                        "idVaga: " + s.getIdVaga() + "\n" +
+                        "início: " + s.getInicio() + "\n" +
+                        "fim: "    + s.getFim();
                 
-        //         Boolean resposta = s.getResposta();
-        //         if (resposta != null) {
-        //             solicitacaoAsString += "\nresposta: " + (resposta ? "aceita" : "recusada");
-        //         }
+                Boolean resposta = s.getResposta();
+                if (resposta != null) {
+                    solicitacaoAsString += "\nresposta: " + (resposta ? "aceita" : "recusada");
+                }
                 
-        //         solicitacoesAsString.add(solicitacaoAsString);
-        //     }
-        // } catch (RuntimeException e) { runtime?
-        //     return null;
-        // }
+                solicitacoesAsString.add(solicitacaoAsString);
+            }
+        } catch (RuntimeException e) {
+            return null;
+        }
 
         return solicitacoesAsString;
     }
@@ -69,26 +70,26 @@ public class ActionSolicitacao {
     * Retorna nulo caso contrário.
     */
     public static ArrayList<String> listUnansweredByProprietario(String cpf) {
-        // SolicitacaoDAO dao = new SolicitacaoDAO();
+        SolicitacaoDAO solicitacaoDAO = new SolicitacaoDAO();
         ArrayList<Solicitacao> solicitacoes = new ArrayList<>();
         ArrayList<String> solicitacoesAsString = new ArrayList<>();
 
-        // try {
-        //     solicitacoes = dao.listUnansweredByProprietario(cpf);
+        try {
+            solicitacoes = solicitacaoDAO.listUnansweredByCpfProprietario(cpf);
             
-        //     for (Solicitacao s : solicitacoes) {
-        //         String solicitacaoAsString =
-        //                 "idSolicitacao: " + s.getIdSolicitacao() + "\n" +
-        //                 "cpfMotorista: " + s.getCpfMotorista() + "\n" +
-        //                 "idVaga: " + s.getIdVaga() + "\n" +
-        //                 "início: " + s.getInicio() + "\n" +
-        //                 "fim: "    + s.getFim();
+            for (Solicitacao s : solicitacoes) {
+                String solicitacaoAsString =
+                        "idSolicitacao: " + s.getIdSolicitacao() + "\n" +
+                        "cpfMotorista: " + s.getCpfMotorista() + "\n" +
+                        "idVaga: " + s.getIdVaga() + "\n" +
+                        "início: " + s.getInicio() + "\n" +
+                        "fim: "    + s.getFim();
                 
-        //         solicitacoesAsString.add(solicitacaoAsString);
-        //     }
-        // } catch (RuntimeException e) { runtime?
-        //     return null;
-        // }
+                solicitacoesAsString.add(solicitacaoAsString);
+            }
+        } catch (RuntimeException e) {
+            return null;
+        }
 
         return solicitacoesAsString;
     }
@@ -98,22 +99,28 @@ public class ActionSolicitacao {
     * Retorna verdadeiro se teve sucesso, falso caso contrário.
     */
     public static boolean updateResposta(int idSolicitacao, boolean resposta) {
-        // SolicitacaoDAO dao = new SolicitacaoDAO();
-        Solicitacao solicitacao = new Solicitacao(); // retirar a atribuição
+        SolicitacaoDAO solicitacaoDAO = new SolicitacaoDAO();
+        Solicitacao solicitacao;
 
-        // try {
-        //     solicitacao = dao.get(idSolicitacao);
-        // } catch (RuntimeException e) { // runtime?
-        //     return false;
-        // }
+        try {
+            solicitacao = solicitacaoDAO.get(idSolicitacao);
+            solicitacao.setResposta(resposta);
+            solicitacaoDAO.update(solicitacao);
+
+            if (resposta) {
+                ActionAcordo.insert(idSolicitacao);
+            }
+        } catch (RuntimeException e) {
+            return false;
+        }
 
         solicitacao.setResposta(resposta);
 
-        // try {
-        //     dao.update(solicitacao);
-        // } catch (RuntimeException e) {
-        //     return false;
-        // }
+        try {
+            solicitacaoDAO.update(solicitacao);
+        } catch (RuntimeException e) {
+            return false;
+        }
 
         return true;
     }

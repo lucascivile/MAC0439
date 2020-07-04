@@ -1,12 +1,14 @@
 package modelo.relacional;
 
+import java.util.Date;
+
 public class Solicitacao {
     
     private int idSolicitacao;
     private String cpfMotorista;
     private Integer idVaga;
-    private String inicio;
-    private String fim;
+    private Date inicio;
+    private Date fim;
     private Boolean resposta;
 
     public int getIdSolicitacao() {
@@ -29,19 +31,19 @@ public class Solicitacao {
         this.idVaga = novo;
     }
 
-    public String getInicio() {
+    public Date getInicio() {
         return this.inicio;
     }
 
-    public void setInicio(String novo) {
+    public void setInicio(Date novo) {
         this.inicio = novo;
     }
 
-    public String getFim() {
+    public Date getFim() {
         return this.fim;
     }
 
-    public void setFim(String novo) {
+    public void setFim(Date novo) {
         this.fim = novo;
     }
 

@@ -1,5 +1,6 @@
 package action;
 
+import bd.relacional.VeiculoDAO;
 import modelo.relacional.Veiculo;
 
 public class ActionVeiculo {
@@ -17,13 +18,13 @@ public class ActionVeiculo {
         veiculo.setCor(cor);
         veiculo.setPlaca(placa);
 
-        // VeiculoDAO dao = new VeiculoDAO();
+        VeiculoDAO veiculoDAO = new VeiculoDAO();
 
-        // try {
-        //     dao.insert(veiculo);
-        // } catch (RuntimeException e) { -- runtime ou sqlerror? --
-        //     return false;
-        // }
+        try {
+            veiculoDAO.insert(veiculo);
+        } catch (RuntimeException e) {
+            return false;
+        }
 
         return true;
     }
