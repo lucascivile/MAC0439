@@ -1,15 +1,16 @@
 package bd.relacional;
 
+import java.sql.Connection;
 import java.util.ArrayList;
 
 import modelo.relacional.Solicitacao;
 
 public class SolicitacaoDAO {
     
-    // private Connection connection;
+    private Connection connection;
 
     public SolicitacaoDAO() {
-		// this.connection = ConnectionFactory.getInstance().getConnection();
+		this.connection = ConnectionFactory.getInstance().getConnection();
     }
 
     /**

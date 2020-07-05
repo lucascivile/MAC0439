@@ -1,5 +1,6 @@
 package bd.relacional;
 
+import java.sql.Connection;
 import java.util.ArrayList;
 import java.util.Date;
 
@@ -7,10 +8,10 @@ import modelo.relacional.Vaga;
 
 public class VagaDAO {
     
-    // private Connection connection;
+    private Connection connection;
 
     public VagaDAO() {
-		// this.connection = ConnectionFactory.getInstance().getConnection();
+		    this.connection = ConnectionFactory.getInstance().getConnection();
     }
 
     /**

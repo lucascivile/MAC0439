@@ -19,8 +19,4 @@ public class AgenteDAO {
     public Agente get(String cpf) {
         return null;
     }
-
-    // public ArrayList<Vaga> listByAgenteBairro(String agenteCpf) {
-    //     return null;
-    // }
 }

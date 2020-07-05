@@ -1,13 +1,14 @@
 package bd.relacional;
 
+import java.sql.Connection;
 import modelo.relacional.Veiculo;
 
 public class VeiculoDAO {
     
-    // private Connection connection;
+    private Connection connection;
 
     public VeiculoDAO() {
-		// this.connection = ConnectionFactory.getInstance().getConnection();
+		    this.connection = ConnectionFactory.getInstance().getConnection();
     }
 
     /**

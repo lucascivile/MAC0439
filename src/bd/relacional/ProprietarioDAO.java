@@ -1,13 +1,14 @@
 package bd.relacional;
 
+import java.sql.Connection;
 import modelo.relacional.Proprietario;
 
 public class ProprietarioDAO {
     
-    // private Connection connection;
+    private Connection connection;
 
     public ProprietarioDAO() {
-		// this.connection = ConnectionFactory.getInstance().getConnection();
+		    this.connection = ConnectionFactory.getInstance().getConnection();
     }
 
     /**

@@ -1,15 +1,16 @@
 package bd.relacional;
 
+import java.sql.Connection;
 import java.util.ArrayList;
 
 import modelo.relacional.Acordo;
 
 public class AcordoDAO {
 
-    // private Connection connection;
+    private Connection connection;
 
     public AcordoDAO() {
-		// this.connection = ConnectionFactory.getInstance().getConnection();
+		this.connection = ConnectionFactory.getInstance().getConnection();
     }
 
     /**

@@ -1,13 +1,14 @@
 package bd.relacional;
 
+import java.sql.Connection;
 import modelo.relacional.Agente;
 
 public class AgenteDAO {
     
-    // private Connection connection;
+    private Connection connection;
 
     public AgenteDAO() {
-		// this.connection = ConnectionFactory.getInstance().getConnection();
+		    this.connection = ConnectionFactory.getInstance().getConnection();
     }
 
     /**
