@@ -6,8 +6,8 @@ import java.util.Properties;
 public class ConnectionFactory {
 
     public static final String DRIVER_NAME = "org.postgresql.Driver";
-	public static final String URL_BD = "jdbc:postgresql://localhost:5432/lnagamine";
-	public static final String USER_BD = "lnagamine";
+	public static final String URL_BD = "jdbc:postgresql://localhost:5432/ep3";
+	public static final String USER_BD = "ep3";
 	public static final String PASSWORD_BD = "";
 
 	private static ConnectionFactory connectionFactory = null;
