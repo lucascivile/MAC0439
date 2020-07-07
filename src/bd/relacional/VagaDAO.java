@@ -2,6 +2,7 @@ package bd.relacional;
 
 import java.sql.*;
 import java.util.ArrayList;
+import java.util.Date;
 
 import modelo.relacional.Vaga;
 
