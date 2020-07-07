@@ -1,7 +1,6 @@
 import java.util.*;
-
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
+import java.sql.Date;
+import java.sql.Timestamp;
 
 import action.*;
 
@@ -116,26 +115,8 @@ public class EasyPark {
                 System.out.println("Não conseguimos listar suas solicitações");
             }
         } else if (selectedAction == 3) {
-            SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy HH:mm");
-            Date inicio, fim;
-
-            while (true) {
-                try {
-                    inicio = format.parse(requestString("Início do uso (no formato dd/mm/aaa hh:mm):"));
-                    break;
-                } catch (ParseException e) {
-                    System.out.println("Período inválido!");
-                }
-            }
-
-            while (true) {
-                try {
-                    fim = format.parse(requestString("Fim do uso (no formato dd/mm/aaa hh:mm):"));
-                    break;
-                } catch (ParseException e) {
-                    System.out.println("Período inválido!");
-                }
-            }
+            Timestamp inicio = Timestamp.valueOf(requestString("Início do uso (no formato aaaa-mm-dd hh:mm):"));
+            Timestamp fim = Timestamp.valueOf(requestString("Fim do uso (no formato aaaa-mm-dd hh:mm):"));
     
             Double latitude = requestDouble("Latitude desejada:");
             Double longitude = requestDouble("Longitude desejada: ");
@@ -416,22 +397,12 @@ public class EasyPark {
 
     private static Screen signUpScreen() {
         int tipoUsuario = -1;
-        SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy");
 
         String nome = requestString("Nome: ");
         String cpf = requestString("CPF: ");
         String email = requestString("Email: ");
         String senha = requestString("Senha: ");
-        Date nascimento;
-
-        while (true) {
-            try {
-                nascimento = format.parse(requestString("\nData de nascimento (no formato dd/mm/aaaa):"));
-                break;
-            } catch (ParseException e) {
-                System.out.println("Data inválida!");
-            }
-        }
+        Date nascimento = Date.valueOf(requestString("\nData de nascimento (no formato dd/mm/aaaa):"));
 
         while (!Arrays.asList(1, 2, 3, 4).contains(tipoUsuario)) {
             System.out.println();

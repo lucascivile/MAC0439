@@ -1,14 +1,14 @@
 package modelo.relacional;
 
-import java.sql.Date;
+import java.sql.Timestamp;
 
 public class Solicitacao {
     
     private int idSolicitacao;
     private String cpfMotorista;
     private Integer idVaga;
-    private Date inicio;
-    private Date fim;
+    private Timestamp inicio;
+    private Timestamp fim;
     private Boolean resposta;
 
     public int getIdSolicitacao() {
@@ -35,19 +35,19 @@ public class Solicitacao {
         this.idVaga = novo;
     }
 
-    public Date getInicio() {
+    public Timestamp getInicio() {
         return this.inicio;
     }
 
-    public void setInicio(Date novo) {
+    public void setInicio(Timestamp novo) {
         this.inicio = novo;
     }
 
-    public Date getFim() {
+    public Timestamp getFim() {
         return this.fim;
     }
 
-    public void setFim(Date novo) {
+    public void setFim(Timestamp novo) {
         this.fim = novo;
     }
 

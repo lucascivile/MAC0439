@@ -17,7 +17,7 @@ public class AcordoDAO {
     /**
     * Cria a acordo no banco.
     */
-    public void insert(Acordo acordo) {
+    public int insert(Acordo acordo) {
         String sql = "insert into acordo "
                     + "(id_solicitacao)" + " values (?) on conflict do nothing";
 
@@ -26,10 +26,22 @@ public class AcordoDAO {
             stmt.setInt(1, acordo.getIdSolicitacao());
             stmt.execute();
             stmt.close();
+
+
+            stmt = connection.prepareStatement("select id_acordo from acordo where id_solicitacao = ? order by id_acordo desc limit 1");
+            stmt.setInt(1, acordo.getIdSolicitacao());
+            ResultSet rs = stmt.executeQuery();
+            if (rs.next()) {
+                return rs.getInt("id_acordo");
+            }
+
+            rs.close();
+            stmt.close();
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
 
+        return -1;
     }
 
     /**

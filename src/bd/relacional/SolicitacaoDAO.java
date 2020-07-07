@@ -3,7 +3,6 @@ package bd.relacional;
 import java.sql.*;
 import java.sql.ResultSet;
 import java.util.ArrayList;
-import java.util.Date;
 
 import modelo.relacional.Solicitacao;
 
@@ -22,7 +21,8 @@ public class SolicitacaoDAO {
     */
     public void insert(Solicitacao solicitacao) {
         String sql = "insert into solicitacao "
-                        + "(cpf_motorista,id_vaga,inicio,fim,resposta)" + " values (?,?,?,?,?) on conflict do nothing";
+                        + "(cpf_motorista,id_vaga,momento_inicio,momento_fim,resposta) "
+                        + "values (?,?,?,?,?) on conflict do nothing";
 
         try {
             PreparedStatement stmt = connection.prepareStatement(sql);
@@ -54,10 +54,11 @@ public class SolicitacaoDAO {
 
             if (rs.next()) {
                 solicitacao = new Solicitacao();
+                solicitacao.setIdSolicitacao(rs.getInt("id_solicitacao"));
                 solicitacao.setCpfMotorista(rs.getString("cpf_motorista"));
                 solicitacao.setIdVaga(rs.getInt("id_vaga"));
-                solicitacao.setInicio(rs.getTimestamp("inicio"));
-                solicitacao.setFim(rs.getTimestamp("inicio"));
+                solicitacao.setInicio(rs.getTimestamp("momento_inicio"));
+                solicitacao.setFim(rs.getTimestamp("momento_fim"));
                 solicitacao.setResposta(rs.getBoolean("resposta"));
             }
             rs.close();
@@ -69,14 +70,14 @@ public class SolicitacaoDAO {
     }
 
     public void update(Solicitacao solicitacao) {
-        String sql = "update solicitacao set cpf_motorista=?, id_vaga=?, inicio=?, fim=?, resposta=? "
+        String sql = "update solicitacao set cpf_motorista=?, id_vaga=?, momento_inicio=?, momento_fim=?, resposta=? "
             + "where id_solicitacao=?";
         try {
             PreparedStatement stmt = connection.prepareStatement(sql);
             stmt.setString(1, solicitacao.getCpfMotorista());
             stmt.setInt(2, solicitacao.getIdVaga());
-            stmt.setDate(3, solicitacao.getInicio());
-            stmt.setDate(4, solicitacao.getFim());
+            stmt.setTimestamp(3, solicitacao.getInicio());
+            stmt.setTimestamp(4, solicitacao.getFim());
             stmt.setBoolean(5, solicitacao.getResposta());
             stmt.setInt(6, solicitacao.getIdSolicitacao());
             stmt.execute();
@@ -116,8 +117,8 @@ public class SolicitacaoDAO {
                 solicitacao.setIdSolicitacao(rs.getInt("id_solicitacao"));
                 solicitacao.setCpfMotorista(rs.getString("cpf_motorista"));
                 solicitacao.setIdVaga(rs.getInt("id_vaga"));
-                solicitacao.setInicio(rs.getTimestamp("inicio"));
-                solicitacao.setFim(rs.getTimestamp("inicio"));
+                solicitacao.setInicio(rs.getTimestamp("momento_inicio"));
+                solicitacao.setFim(rs.getTimestamp("momento_fim"));
                 solicitacao.setResposta(rs.getBoolean("resposta"));
 
                 solicitacoes.add(solicitacao);
@@ -153,8 +154,8 @@ public class SolicitacaoDAO {
                 solicitacao.setIdSolicitacao(rs.getInt("id_solicitacao"));
                 solicitacao.setCpfMotorista(rs.getString("cpf_motorista"));
                 solicitacao.setIdVaga(rs.getInt("id_vaga"));
-                solicitacao.setInicio(rs.getTimestamp("inicio"));
-                solicitacao.setFim(rs.getTimestamp("inicio"));
+                solicitacao.setInicio(rs.getTimestamp("momento_inicio"));
+                solicitacao.setFim(rs.getTimestamp("momento_fim"));
                 solicitacao.setResposta(rs.getBoolean("resposta"));
 
                 solicitacoes.add(solicitacao);

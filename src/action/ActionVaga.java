@@ -1,5 +1,6 @@
 package action;
 
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Date;
 
@@ -53,7 +54,7 @@ public class ActionVaga {
     * Retorna nulo se der erro.
     */
     public static ArrayList<String> listByLocationAndTime(String userCpf,
-            Date inicio, Date fim, Double latitude, Double longitude) {
+            Timestamp inicio, Timestamp fim, Double latitude, Double longitude) {
         VagaDAO vagaDAO = new VagaDAO();
         ArrayList<Vaga> vagas = new ArrayList<>();
         ArrayList<String> vagasAsString = new ArrayList<>();

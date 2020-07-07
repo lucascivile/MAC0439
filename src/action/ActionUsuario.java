@@ -2,7 +2,8 @@ package action;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Date;
+import java.sql.Date;
+import java.sql.Timestamp;
 
 import bd.relacional.AcordoDAO;
 import bd.relacional.AgenteDAO;
@@ -273,7 +274,7 @@ public class ActionUsuario {
                 for (Acordo a : acordos) {
                     Solicitacao s = solicitacaoDao.get(a.getIdSolicitacao());
 
-                    Date now = new Date();
+                    Timestamp now = new Timestamp(System.currentTimeMillis());
                     if (s.getCpfMotorista().equals(cpf) && s.getFim().compareTo(now) < 0) {
                         Integer nota = acordoDAODoc.get(a.getIdAcordo()).getNotaPM();
                         if (nota != null) {
@@ -294,7 +295,7 @@ public class ActionUsuario {
                     Solicitacao s = solicitacaoDao.get(a.getIdSolicitacao());
                     Vaga v = vagaDao.get(s.getIdVaga());
 
-                    Date now = new Date();
+                    Timestamp now = new Timestamp(System.currentTimeMillis());
                     if (v.getCpfProprietario().equals(cpf) && s.getFim().compareTo(now) < 0) {
                         Integer nota = acordoDAODoc.get(a.getIdAcordo()).getNotaPM();
                         if (nota != null) {

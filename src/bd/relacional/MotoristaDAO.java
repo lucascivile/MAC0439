@@ -2,7 +2,6 @@ package bd.relacional;
 
 import java.sql.*;
 import java.sql.ResultSet;
-import java.util.ArrayList;
 
 import modelo.relacional.Motorista;
 
@@ -75,11 +74,11 @@ public class MotoristaDAO {
         }
     }
 
-    public void remove(Motorista motorista) {
+    public void remove(String cpf) {
         try {
             PreparedStatement stmt = connection.prepareStatement("delete "
-                + "from motorista where numero_cnh=?");
-            stmt.setString(1, motorista.getCnh());
+                + "from motorista where cpf_usuario=?");
+            stmt.setString(1, cpf);
             stmt.execute();
             stmt.close();
         } catch (SQLException e) {

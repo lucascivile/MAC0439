@@ -33,13 +33,14 @@ public class UsuarioDAO {
         }
     }
 
-    public Usuario get(String cpf) {
+    public Usuario get(String email, String senha) {
         try {
             Usuario usuario = null;
             
             PreparedStatement stmt = connection.prepareStatement("select * "
-                    + "from usuario where cpf=?");
-            stmt.setString(1, cpf);
+                    + "from usuario where email=? and senha=?");
+            stmt.setString(1, email);
+            stmt.setString(2, senha);
             ResultSet rs = stmt.executeQuery();
 
             if (rs.next()) {
@@ -49,7 +50,10 @@ public class UsuarioDAO {
                 usuario.setEmail(rs.getString("email"));
                 usuario.setSenha(rs.getString("senha"));
                 usuario.setNascimento(rs.getDate("data_nascimento"));
+            } else {
+                return null;
             }
+            
             rs.close();
             stmt.close();
             return usuario;
@@ -75,11 +79,11 @@ public class UsuarioDAO {
         }
     }
 
-    public void remove(Usuario usuario) {
+    public void remove(String cpf) {
         try {
             PreparedStatement stmt = connection.prepareStatement("delete "
                     + "from usuario where cpf=?");
-            stmt.setString(1, usuario.getCpf());
+            stmt.setString(1, cpf);
             stmt.execute();
             stmt.close();
         } catch (SQLException e) {

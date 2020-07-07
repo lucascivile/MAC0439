@@ -1,7 +1,7 @@
 package action;
 
+import java.sql.Timestamp;
 import java.util.ArrayList;
-import java.util.Date;
 
 import bd.relacional.SolicitacaoDAO;
 import modelo.relacional.Solicitacao;
@@ -12,7 +12,7 @@ public class ActionSolicitacao {
     * Cria uma solicitação do motorista para a vaga.
     * Retorna verdadeiro se teve sucesso, falso caso contrário.
     */
-    public static boolean insert(int idVaga, String cpfMotorista, Date inicio, Date fim) {
+    public static boolean insert(int idVaga, String cpfMotorista, Timestamp inicio, Timestamp fim) {
         SolicitacaoDAO solicitacaoDAO = new SolicitacaoDAO();
         Solicitacao solicitacao = new Solicitacao();
 

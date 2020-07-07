@@ -15,6 +15,10 @@ public class Vaga {
         return this.idVaga;
     }
 
+    public void setIdVaga(int novo) {
+        this.idVaga = novo;
+    }
+
     public String getCpfProprietario() {
         return this.cpfProprietario;
     }

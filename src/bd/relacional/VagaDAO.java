@@ -16,7 +16,7 @@ public class VagaDAO {
     /**
     * Cria a vaga no banco.
     */
-    public void insert(Vaga vaga) {
+    public int insert(Vaga vaga) {
         String sql = "insert into vaga "
                 + "(cpf_proprietario,liberada,latitude,longitude,largura,comprimento,preco_hora) "
                 + "values (?,?,?,?,?,?,?) on conflict do nothing";
@@ -34,9 +34,23 @@ public class VagaDAO {
 
             stmt.execute();
             stmt.close();
+
+
+            stmt = connection.prepareStatement("select id_vaga from vaga where cpf_proprietario = ? order by id_vaga desc limit 1");
+            stmt.setString(1, vaga.getCpfProprietario());
+            ResultSet rs = stmt.executeQuery();
+
+            if (rs.next()) {
+                return rs.getInt("id_vaga");
+            }
+
+            rs.close();
+            stmt.close();
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
+
+        return -1;
     }
 
     /**
@@ -53,6 +67,7 @@ public class VagaDAO {
 
             if (rs.next()) {
                 vaga = new Vaga();
+                vaga.setIdVaga(rs.getInt("id_vaga"));
                 vaga.setCpfProprietario(rs.getString("cpf_proprietario"));
                 vaga.setLiberada(rs.getBoolean("liberada"));
                 vaga.setLatitude(rs.getDouble("latitude"));
@@ -108,7 +123,7 @@ public class VagaDAO {
     *  3) não pertencem ao proprietário do cpf fornecido.
     */
     public ArrayList<Vaga> listFreeByLocationAndTime(String userCpf, Double latitude,
-            Double longitude, Date inicio, Date fim) {
+            Double longitude, Timestamp inicio, Timestamp fim) {
         try {
             ArrayList<Vaga> vagas = new ArrayList<>();
             
@@ -131,6 +146,7 @@ public class VagaDAO {
 
             if (rs.next()) {
                 Vaga vaga = new Vaga();
+                vaga.setIdVaga(rs.getInt("id_vaga"));
                 vaga.setCpfProprietario(rs.getString("cpf_proprietario"));
                 vaga.setLiberada(rs.getBoolean("liberada"));
                 vaga.setLatitude(rs.getDouble("latitude"));
