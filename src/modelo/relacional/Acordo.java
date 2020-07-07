@@ -9,6 +9,10 @@ public class Acordo {
         return this.idAcordo;
     }
 
+    public void setIdAcordo(int novo) {
+        this.idAcordo = novo;
+    }
+
     public int getIdSolicitacao() {
         return this.idSolicitacao;
     }

@@ -15,6 +15,10 @@ public class Solicitacao {
         return this.idSolicitacao;
     }
 
+    public void setIdSolicitacao(int novo) {
+        this.idSolicitacao = novo;
+    }
+
     public String getCpfMotorista() {
         return this.cpfMotorista;
     }

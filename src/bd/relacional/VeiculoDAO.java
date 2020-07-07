@@ -15,13 +15,10 @@ public class VeiculoDAO {
 
 	public void insert(Veiculo veiculo) {
 		String sql = "insert into veiculo "
-				+ "(cpfMotorista,modelo,ano,cor,placa)" + " values (?,?,?,?,?) on conflict do nothing";
+				+ "(cpf_motorista,modelo,ano,cor,placa)" + " values (?,?,?,?,?) on conflict do nothing";
 
 		try {
-			// prepared statement para inserção
 			PreparedStatement stmt = connection.prepareStatement(sql);
-
-			// seta os valores
 
 			stmt.setString(1, veiculo.getCpfMotorista());
 			stmt.setString(2, veiculo.getModelo());
@@ -29,12 +26,9 @@ public class VeiculoDAO {
 			stmt.setString(4, veiculo.getCor());
 			stmt.setString(5, veiculo.getPlaca());
 
-			// executa
 			stmt.execute();
 			stmt.close();
 		} catch (SQLException e) {
-			// A SQLException é "encapsulada" em uma RuntimeException
-			// para desacoplar o código da API de JDBC
 			throw new RuntimeException(e);
 		}
 	}
@@ -50,7 +44,7 @@ public class VeiculoDAO {
 
 			if (rs.next()) {
 				veiculo = new Veiculo();
-				veiculo.setCpfMotorista(rs.getString("cpfMotorista"));
+				veiculo.setCpfMotorista(rs.getString("cpf_motorista"));
 				veiculo.setModelo(rs.getString("modelo"));
 				veiculo.setAno(rs.getInt("ano"));
 				veiculo.setCor(rs.getString("cor"));
@@ -65,7 +59,7 @@ public class VeiculoDAO {
 	}
 	
 	public void update(Veiculo veiculo) {
-		String sql = "update veiculo set nomeAluno=?, formacao=?, nivel=?, idade=? "
+		String sql = "update veiculo set cpf_motorista=?, modelo=?, ano=?, cor=? "
 				+ "where placa=?";
 		try {
 			PreparedStatement stmt = connection.prepareStatement(sql);

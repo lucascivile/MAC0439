@@ -8,6 +8,7 @@ import action.*;
 // banco: resposta pra solicitacao
 // conceitual: preco vaga
 // doc: cortar categoria denuncia e nota m -> v
+// coordenadas são doubles
 
 public class EasyPark {
 
